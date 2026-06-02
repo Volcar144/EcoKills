@@ -19,6 +19,8 @@ public class EcoKills extends JavaPlugin {
     private String killerMessage;
     private String victimMessage;
 
+    private boolean papiEnabled = false;
+
 
     @Override
     public void onEnable() {
@@ -38,7 +40,13 @@ public class EcoKills extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
-
+        if(!getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            getLogger().fine("PlaceholderAPI not found, placeholder support will be disabled...");
+        } else {
+            getLogger().info("PlaceholderAPI found, enabling placeholder support...");
+            papiEnabled = true;
+        }
+            
         getLogger().info("Loading configuration...");
         saveDefaultConfig();
         flatFee = config.getBoolean("payments.flat-fee");
@@ -99,7 +107,9 @@ public class EcoKills extends JavaPlugin {
     public String getVictimMessage() {
         return victimMessage;
     }
-    
 
+    public boolean isPapiEnabled() {
+        return papiEnabled;
+    }
 
 }    

@@ -8,6 +8,8 @@ A Minecraft plugin to give a percentage of a player's money to another player wh
 
 
 [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
+[![Paper plugin] (https://img.shields.io/badge/Modrinth-Plugin-blue.svg?logo=modrinth)]
+This is a paper plugin for minecraft version 26.1.2.
 
 
 

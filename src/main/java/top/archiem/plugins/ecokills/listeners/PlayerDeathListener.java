@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
+import net.kyori.adventure.text.Component;
 import net.milkbowl.vault.economy.Economy;
 import top.archiem.plugins.ecokills.EcoKills;
 import top.archiem.plugins.ecokills.utils.Utils;
@@ -48,7 +49,16 @@ public class PlayerDeathListener implements Listener {
 
             double rewardPercentage = percentage / 100;
 
-            double rewardAmount = victimBalence * rewardPercentage;
+            double rewardAmount;
+
+            if(flatFee) {
+                rewardAmount = feeAmount;
+                if(victimBalence < rewardAmount) {
+                    rewardAmount = victimBalence;
+                }
+            } else {
+                rewardAmount = victimBalence * rewardPercentage;
+            }
 
             if(rewardAmount < 0) {
                 plugin.getLogger().severe("How the fuf did you even do this? The reward amount is less than 0! Please report this.");
@@ -65,14 +75,12 @@ public class PlayerDeathListener implements Listener {
                 plugin.getLogger().severe("Failed to pay killer!");
                 return;
             }
-            String killerOne = Utils.replaceText(killerMessage, "%amount%", econ.format(rewardAmount));
-            String killerMsg = Utils.replaceText(killerOne, "%amount%", victim.getName());
 
-            String victimOne = Utils.replaceText(victimMessage, "%amount%", econ.format(rewardAmount));
-            String victimMsg = Utils.replaceText(victimOne, "%killer%", killer.getName());
+            Component killerMsg = Utils.addPlaceholders(killerMessage, killer, true, rewardAmount, econ);
+            Component victimMsg = Utils.addPlaceholders(victimMessage, victim, false, rewardAmount, econ);
 
-            victim.sendMessage(Utils.colorize(victimMsg));
-            killer.sendMessage(Utils.colorize(killerMsg));
+            victim.sendMessage(victimMsg);
+            killer.sendMessage(killerMsg);
 
         } else {
             return;

@@ -4,6 +4,14 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
+import net.milkbowl.vault.economy.Economy;
+
+import top.archiem.plugins.ecokills.EcoKills;
+
+import org.bukkit.entity.Player;
+
+import me.clip.placeholderapi.PlaceholderAPI;
+
 public class Utils {
     
     public static Component colorize(String msg) {
@@ -21,5 +29,15 @@ public class Utils {
 
     public static String replaceText(String msg,String toReplace, String replacement){
         return msg.replace(toReplace, replacement);
+    }
+
+    public static Component addPlaceholders(String msg, Player player, boolean isKiller, double amount, Economy econ){
+        String placeholder = isKiller ? "%killer%" : "%victim%";
+        String replacedMsg = replaceText(msg, placeholder, player.getName());
+        String finalMsg = replaceText(replacedMsg, "%amount%", econ.format(amount));
+        if(EcoKills.getPlugin(EcoKills.class).isPapiEnabled()){
+            finalMsg = PlaceholderAPI.setPlaceholders(player, finalMsg);
+        }
+        return colorize(finalMsg);
     }
 }

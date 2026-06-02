@@ -9,11 +9,11 @@ payments:
   #Max 100
   percentage: 10
 
-#Messages in the plugin, use the minimessage format(https://webui.advntr.dev/)
+#Messages in the plugin, use the minimessage format(https://webui.advntr.dev/). If you have placeholderAPI enabled, you can use that too.
 #Placeholders:
 # - %victim% the person who was killed
 # - %killer% the killer of the player
 # - %amount% the amount earned.
 messages:
-  killer: "You killed %victim% and earned %amount%"
-  victim: "You were killed by %killer% and lost %amount%"
+  killer: "<gold>You killed <red>%victim%</red> and earned <red>%amount%</red></gold>"
+  victim: "<red>You were killed by <gold>%killer%</gold> and lost <gold>%amount%</gold></red>"
