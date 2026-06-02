@@ -1,13 +1,13 @@
-import net.milkbowl.vault.chat.Chat;
+package top.archiem.plugins.ecokills.utils;
+
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
-import net.milkbowl.vault.permission.Permission;
 import org.bukkit.OfflinePlayer;
 
 public class Vault {
     private Economy econ;
 
-    public void Vault(Economy econ){
+    public Vault(Economy econ){
         this.econ = econ;
     }
 
@@ -33,7 +33,8 @@ public class Vault {
         }
     }
 
+    public double getBalance(OfflinePlayer player){
+        return econ.getBalance(player);
+    }
 
-
-    
 }

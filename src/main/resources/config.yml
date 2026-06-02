@@ -1,0 +1,19 @@
+#Show the ASCII banner when the plugin is enabled
+ascii-banner: true
+
+payments:
+  #Pay a flat fee for each kill, or a percentage of the victim's balance
+  flat-fee: false
+  fee-amount: 100
+
+  #Max 100
+  percentage: 10
+
+#Messages in the plugin, use the minimessage format(https://webui.advntr.dev/)
+#Placeholders:
+# - %victim% the person who was killed
+# - %killer% the killer of the player
+# - %amount% the amount earned.
+messages:
+  killer: "You killed %victim% and earned %amount%"
+  victim: "You were killed by %killer% and lost %amount%"

@@ -1,0 +1,7 @@
+main: top.archiem.plugins.ecokills.EcoKills
+version: 0.1
+name: EcoKills
+author: DanngDev
+api-version: 1.21
+depend: [Vault]
+soft-depend: [PlaceholderAPI]
