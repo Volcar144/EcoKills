@@ -8,6 +8,7 @@ public class EcoKills extends JavaPlugin {
 
     private Economy econ;
     
+    
     @Override
     public void onEnable() {
         if (!setupEconomy()) {
@@ -39,7 +40,7 @@ public class EcoKills extends JavaPlugin {
         return econ != null;
     }
 
-    
+
 
     
     
