@@ -18,4 +18,8 @@ public class Utils {
             LegacyComponentSerializer.legacyAmpersand().deserialize(msg)
         );
     }
+
+    public static String replaceText(String msg,String toReplace, String replacement){
+        return msg.replace(toReplace, replacement);
+    }
 }

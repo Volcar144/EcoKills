@@ -47,6 +47,12 @@ public class EcoKills extends JavaPlugin {
         killerMessage = config.getString("messages.killer");
         victimMessage = config.getString("messages.victim");
 
+        if(percentage < 1 || percentage > 100){
+            getLogger().severe("Invalid percentage value in config! Must be between 1 and 100. Disabling plugin.");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         // Register listeners
         getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
         
@@ -70,10 +76,30 @@ public class EcoKills extends JavaPlugin {
         return econ != null;
     }
 
+    public Economy getEconomy() {
+        return econ;
+    }
 
+    public boolean isFlatFee() {
+        return flatFee;
+    }
 
+    public double getFeeAmount() {
+        return feeAmount;
+    }
 
+    public int getPercentage() {
+        return percentage;
+    }
 
+    public String getKillerMessage() {
+        return killerMessage;
+    }
+
+    public String getVictimMessage() {
+        return victimMessage;
+    }
     
-    
-}
+
+
+}    
