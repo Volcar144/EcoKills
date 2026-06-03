@@ -15,7 +15,7 @@ jobs:
             maven-version: 3.8.2
       - uses: s4u/maven-settings-action@v4.0.0
       - name: Lint with spotless
-        run: mvn spotless:check
+        run: mvn com.diffplug.spotless:spotless-maven-plugin:2.46.2:check
   build:
     runs-on: ubuntu-latest
     needs: lint
