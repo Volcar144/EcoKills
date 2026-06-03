@@ -2,6 +2,18 @@ main: top.archiem.plugins.ecokills.EcoKills
 version: 0.1
 name: EcoKills
 author: DanngDev
-api-version: 1.21
+api-version: 26.1.2
+permissions:
+  ecokills.admin:
+    description: "OP for ecokills"
+    default: op
+commands:
+  ecokills:
+    description: "The main ecokills command"
+    usage: "/ecokills reload"
+    aliases: [ek]
+    permission: ecokills.admin
+    permission-message: "You do not have permission to use this command"
+
 depend: [Vault]
 soft-depend: [PlaceholderAPI]

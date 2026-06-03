@@ -1,92 +1,91 @@
 package top.archiem.plugins.ecokills.listeners;
 
+import net.kyori.adventure.text.Component;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-
-import net.kyori.adventure.text.Component;
-import net.milkbowl.vault.economy.Economy;
 import top.archiem.plugins.ecokills.EcoKills;
 import top.archiem.plugins.ecokills.utils.Utils;
 import top.archiem.plugins.ecokills.utils.Vault;
 
 public class PlayerDeathListener implements Listener {
-    
-    private Economy econ = EcoKills.getPlugin(EcoKills.class).getEconomy();
 
-    private boolean flatFee = EcoKills.getPlugin(EcoKills.class).isFlatFee();
-    private double feeAmount = EcoKills.getPlugin(EcoKills.class).getFeeAmount();
-    private int percentage = EcoKills.getPlugin(EcoKills.class).getPercentage();
+  private Economy econ = EcoKills.getPlugin(EcoKills.class).getEconomy();
 
-    private String killerMessage = EcoKills.getPlugin(EcoKills.class).getKillerMessage();
-    private String victimMessage = EcoKills.getPlugin(EcoKills.class).getVictimMessage();
-    private EcoKills plugin = EcoKills.getPlugin(EcoKills.class);
+  private boolean flatFee = EcoKills.getPlugin(EcoKills.class).isFlatFee();
+  private double feeAmount = EcoKills.getPlugin(EcoKills.class).getFeeAmount();
+  private int percentage = EcoKills.getPlugin(EcoKills.class).getPercentage();
 
-    Vault vault = new Vault(econ);
+  private String killerMessage = EcoKills.getPlugin(EcoKills.class).getKillerMessage();
+  private String victimMessage = EcoKills.getPlugin(EcoKills.class).getVictimMessage();
+  private EcoKills plugin = EcoKills.getPlugin(EcoKills.class);
 
-    @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent event) {
+  Vault vault = new Vault(econ);
 
-        Player victim = event.getEntity();
-        //Get the offline player for vault use
-        OfflinePlayer offlineVictim = Bukkit.getOfflinePlayer(victim.getUniqueId());
+  @EventHandler
+  public void onPlayerDeath(PlayerDeathEvent event) {
 
-        Player killer = victim.getKiller();
-        OfflinePlayer offlineKiller;
+    Player victim = event.getEntity();
+    // Get the offline player for vault use
+    OfflinePlayer offlineVictim = Bukkit.getOfflinePlayer(victim.getUniqueId());
 
-        if(killer != null){
-            offlineKiller = Bukkit.getOfflinePlayer(killer.getUniqueId());
+    Player killer = victim.getKiller();
+    OfflinePlayer offlineKiller;
 
-            //Stop Suicide granting rewards
-            if(killer.getUniqueId().equals(victim.getUniqueId())){
-                return;
-            }
+    if (killer != null) {
+      offlineKiller = Bukkit.getOfflinePlayer(killer.getUniqueId());
 
-            double victimBalence = vault.getBalance(offlineVictim);
+      // Stop Suicide granting rewards
+      if (killer.getUniqueId().equals(victim.getUniqueId())) {
+        return;
+      }
 
-            double rewardPercentage = percentage / 100;
+      double victimBalence = vault.getBalance(offlineVictim);
 
-            double rewardAmount;
+      double rewardPercentage = percentage / 100;
 
-            if(flatFee) {
-                rewardAmount = feeAmount;
-                if(victimBalence < rewardAmount) {
-                    rewardAmount = victimBalence;
-                }
-            } else {
-                rewardAmount = victimBalence * rewardPercentage;
-            }
+      double rewardAmount;
 
-            if(rewardAmount < 0) {
-                plugin.getLogger().severe("How the fuf did you even do this? The reward amount is less than 0! Please report this.");
-                rewardAmount = 0;
-            }
-
-            boolean withdraw = vault.removeMoney(offlineVictim, rewardAmount);
-            if(!withdraw) {
-                plugin.getLogger().severe("Failed to remove money from victim's account!");
-                return;
-            }
-            boolean pay = vault.payPlayer(offlineKiller, rewardAmount);
-            if(!pay) {
-                plugin.getLogger().severe("Failed to pay killer!");
-                return;
-            }
-
-            Component killerMsg = Utils.addPlaceholders(killerMessage, killer, true, rewardAmount, econ);
-            Component victimMsg = Utils.addPlaceholders(victimMessage, victim, false, rewardAmount, econ);
-
-            victim.sendMessage(victimMsg);
-            killer.sendMessage(killerMsg);
-
-        } else {
-            return;
+      if (flatFee) {
+        rewardAmount = feeAmount;
+        if (victimBalence < rewardAmount) {
+          rewardAmount = victimBalence;
         }
+      } else {
+        rewardAmount = victimBalence * rewardPercentage;
+      }
 
-        
+      if (rewardAmount < 0) {
+        plugin
+            .gLogger()
+            .severe(
+                "How the fuf did you even do this? The reward amount is less than 0! Please report this.");
+        rewardAmount = 0;
+      }
 
+      boolean withdraw = vault.removeMoney(offlineVictim, rewardAmount);
+      if (!withdraw) {
+        plugin.gLogger().severe("Failed to remove money from victim's account!");
+        return;
+      }
+      boolean pay = vault.payPlayer(offlineKiller, rewardAmount);
+      if (!pay) {
+        plugin.gLogger().severe("Failed to pay killer!");
+        return;
+      }
+
+      Component killerMsg = Utils.addPlaceholders(killerMessage, killer, true, rewardAmount, econ);
+      Component victimMsg = Utils.addPlaceholders(victimMessage, victim, false, rewardAmount, econ);
+
+      victim.sendMessage(victimMsg);
+      killer.sendMessage(killerMsg);
+
+    } else {
+      return;
     }
+  }
 }
