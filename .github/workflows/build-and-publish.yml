@@ -40,12 +40,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - run: mkdir jars
       - uses: actions/download-artifact@v5
         with:
           name: jar-file
-          path: /jars/
+          path: jars/
       - name: Release
         uses: softprops/action-gh-release@v3
         if: github.ref_type == 'tag'
         with:
-          files: /jars/*
+          files: jars/*
