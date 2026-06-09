@@ -51,7 +51,13 @@ public class EcoKills extends JavaPlugin {
     }
 
     getLogger().info("Loading configuration...");
-    saveDefaultConfig();
+    if (!getDataFolder().exists()){
+            getLogger().info("Creating "+ getDataFolder() +" main directory ");
+            getDataFolder().mkdir();
+            //creating main plugin directory if not exists
+            saveDefaultConfig();
+            // then saving the config
+    }
     flatFee = config.getBoolean("payments.flat-fee");
     feeAmount = config.getDouble("payments.fee-amount");
     percentage = config.getInt("payments.percentage");
