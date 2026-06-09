@@ -43,9 +43,9 @@ jobs:
       - uses: actions/download-artifact@v5
         with:
           name: jar-file
-          path: /release.jar
+          path: /jars/
       - name: Release
         uses: softprops/action-gh-release@v3
         if: github.ref_type == 'tag'
         with:
-          files: release.jar
+          files: /jars/*
